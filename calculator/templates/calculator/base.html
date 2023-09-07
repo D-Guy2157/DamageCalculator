@@ -1,0 +1,47 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        {% load static %}
+        <link rel="stylesheet" href="{% static "calculator/styles.css" %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+        {% bootstrap_css %}
+        <title>SCP:SL Damage Calculator</title>
+    </head>
+    <body>
+    {% block navbar %}
+        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">PW Manager!</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users_register' %}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users_login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users_logout' %}">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class ="nav-link" href="{% url 'passwords_dashboard' %}">Dashboard</a>
+                        </li>
+                        <!-- Add more... -->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    {% endblock %}
+    {% block wrapper %}
+        <div class="container">
+            {% bootstrap_messages %}
+            {% block content %}
+            {% endblock %}
+        </div>
+    {% endblock %}
+    {% bootstrap_javascript %}
+    </body>
+</html>
