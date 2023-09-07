@@ -1,11 +1,6 @@
 # Kinda just figuring out the flow of the damage calc as of now
 # Terminal Gaming
 
-print("Welcome to the SCP:SL Damage Calculator\n"
-      "v13.2 (MTF LMG Update)\n"
-      "Made By: D-Guy (d.guy, formerly D-Guy#2157)")
-
-
 class Weapon:
     """The class for weapon and weapon stats"""
     def __init__(self, name, penetration, damage, mag_size, fire_rate, **attachments):
@@ -14,6 +9,7 @@ class Weapon:
         self.damage = damage
         self.mag_size = mag_size
         self.fire_rate = fire_rate
+        self.__dict__.update(attachments)
 
 
 # name, pen, dmg, mag, rof, **attachments
@@ -76,3 +72,28 @@ revolver = Weapon('.44 Revolver', 65, 57.77, 6, 240,
                   barrel=['Medium Barrel', 'Long Barrel', 'Short Barrel'],
                   stock=['Standard Stock', 'Heavy Stock'],
                   magazine=['6-Shot Cylinder', '4-Shot Cylinder', '8-Shot Cylinder'])
+
+weapon_list = [com_15, com_18, fsp_9, crossvec, mtf_e11_sr, fr_mg_0, ak, logicer, shotgun, revolver]
+
+print("Welcome to the SCP:SL Damage Calculator\n"
+      "v13.2.1\n"
+      "Made By: D-Guy (d.guy, formerly D-Guy#2157)")
+
+while True:
+    for num, weapon in enumerate(weapon_list):
+        print(f"{num}. {weapon.name}")
+    weapon_choice = input("Choose a weapon (Type either number or name):\n").lower()
+    valid_choice = [weapon for weapon in weapon_list if weapon.name.lower() == weapon_choice]
+    valid_index = [weapon for num, weapon in enumerate(weapon_list) if str(num) == weapon_choice]
+    if not valid_choice and not valid_index:
+        print("Invalid input, please try again")
+        continue
+    elif valid_choice:
+        print(f"You have chosen the {valid_choice[0].name}")
+        break
+    elif valid_index:
+        print(f"You have chosen the {valid_index[0].name}")
+        break
+    else:
+        print("How did you get here")
+        exit()
