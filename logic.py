@@ -140,14 +140,20 @@ def choose_armor():
     return armor
 
 def choose_attachments():
-    print(f"Choosing attachments for: {weapon.name}")
+    # print(f"Choosing attachments for: {weapon.name}")
+    pass
 
 def calculate():
-    # damage_reduced = (armor.body_protection * (100 - weapon.penetration)) / 100
-    # damage_per_shot = weapon.damage * (1 - (damage_reduced / 100))
-    # total_damage = weapon.mag_size * damage_per_shot
-    # damage_per_second = damage_per_shot * (weapon.fire_rate / 60)
-    pass
+    damage_reduced = (armor.body_protection * (100 - weapon.penetration)) / 100
+    damage_per_shot = weapon.damage * (1 - (damage_reduced / 100))
+    total_damage = weapon.mag_size * damage_per_shot
+    damage_per_second = damage_per_shot * (weapon.fire_rate / 60)
+
+    print(f"Bodyshot damage analysis:\n"
+          f"Reduced: {damage_reduced}%\n"
+          f"Per Shot: {damage_per_shot}\n"
+          f"Total: {total_damage}\n"
+          f"DPS: {damage_per_second}")
 
 choose_weapon()
 choose_armor()
