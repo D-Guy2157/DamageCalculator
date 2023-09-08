@@ -1,6 +1,8 @@
 # Kinda just figuring out the flow of the damage calc as of now
 # Terminal Gaming
 
+import math
+
 class Weapon:
     """The class for weapon and weapon stats"""
     def __init__(self, name, penetration, damage, mag_size, fire_rate, **attachments):
@@ -13,10 +15,11 @@ class Weapon:
 
 class Armor:
     """The class for the 3 types of armor"""
-    def __init__(self, name, body_protection, head_protection):
+    def __init__(self, name, body_protection, head_protection, limb_protection):
         self.name = name
         self.body_protection = body_protection
         self.head_protection = head_protection
+        self.limb_protection = limb_protection
 
 
 # name, pen, dmg, mag, rof, **attachments
@@ -80,9 +83,9 @@ revolver = Weapon('.44 Revolver', 65, 57.77, 6, 240,
                   stock=['Standard Stock', 'Heavy Stock'],
                   magazine=['6-Shot Cylinder', '4-Shot Cylinder', '8-Shot Cylinder'])
 
-light_armor = Armor('Light Armor', 40, 0)
-combat_armor = Armor('Combat Armor', 60, 80)
-heavy_armor = Armor('Heavy Armor', 80, 80)
+light_armor = Armor('Light Armor', 40, 0, 0)
+combat_armor = Armor('Combat Armor', 60, 80, 0)
+heavy_armor = Armor('Heavy Armor', 80, 80, 0)
 
 weapon_list = [com_15, com_18, fsp_9, crossvec, mtf_e11_sr, fr_mg_0, ak, logicer, shotgun, revolver]
 armor_list = [light_armor, combat_armor, heavy_armor]
@@ -127,11 +130,11 @@ def choose_armor():
             print("Invalid input, please try again.")
             continue
         elif valid_choice:
-            print(f"You have chosen the {valid_choice[0].name}")
+            print(f"You have chosen {valid_choice[0].name}")
             armor = valid_choice[0]
             break
         elif valid_index:
-            print(f"You have chosen the {valid_index[0].name}")
+            print(f"You have chosen {valid_index[0].name}")
             armor = valid_index[0]
             break
         else:
@@ -144,16 +147,53 @@ def choose_attachments():
     pass
 
 def calculate():
+    damage_reduced = (armor.head_protection * (100 - weapon.penetration)) / 100
+    damage_per_shot = (weapon.damage * 2) * (1 - (damage_reduced / 100))
+    total_damage = weapon.mag_size * damage_per_shot
+    damage_per_second = damage_per_shot * (weapon.fire_rate / 60)
+    shots_to_kill = math.ceil((100 / damage_per_shot))
+    time_to_kill = (shots_to_kill / (weapon.fire_rate / 60))
+
+    print(f"Headshot Damage Analysis\n"
+          f"Reduced: {damage_reduced}%\n"
+          f"Per Shot: {round(damage_per_shot, 2)}\n"
+          f"Total: {round(total_damage, 2)}\n"
+          f"DPS: {round(damage_per_second, 2)}\n"
+          f"STK: {shots_to_kill}\n"
+          f"TTK: {round(time_to_kill, 2)}\n"
+          , end="")
+
     damage_reduced = (armor.body_protection * (100 - weapon.penetration)) / 100
     damage_per_shot = weapon.damage * (1 - (damage_reduced / 100))
     total_damage = weapon.mag_size * damage_per_shot
     damage_per_second = damage_per_shot * (weapon.fire_rate / 60)
+    shots_to_kill = math.ceil((100 / damage_per_shot))
+    time_to_kill = (shots_to_kill / (weapon.fire_rate / 60))
 
-    print(f"Bodyshot damage analysis:\n"
+    print(f"Bodyshot damage Analysis:\n"
           f"Reduced: {damage_reduced}%\n"
-          f"Per Shot: {damage_per_shot}\n"
-          f"Total: {total_damage}\n"
-          f"DPS: {damage_per_second}")
+          f"Per Shot: {round(damage_per_shot, 2)}\n"
+          f"Total: {round(total_damage, 2)}\n"
+          f"DPS: {round(damage_per_second, 2)}\n"
+          f"STK: {shots_to_kill}\n"
+          f"TTK: {round(time_to_kill, 2)}\n"
+          , end="")
+
+    damage_reduced = (armor.limb_protection * (100 - weapon.penetration)) / 100
+    damage_per_shot = (weapon.damage * 0.7) * (1 - (damage_reduced / 100))
+    total_damage = weapon.mag_size * damage_per_shot
+    damage_per_second = damage_per_shot * (weapon.fire_rate / 60)
+    shots_to_kill = math.ceil((100 / damage_per_shot))
+    time_to_kill = (shots_to_kill / (weapon.fire_rate / 60))
+
+    print(f"Limb Damage Analysis:\n"
+          f"Reduced: {damage_reduced}%\n"
+          f"Per Shot: {round(damage_per_shot, 2)}\n"
+          f"Total: {round(total_damage, 2)}\n"
+          f"DPS: {round(damage_per_second, 2)}\n"
+          f"STK: {shots_to_kill}\n"
+          f"TTK: {round(time_to_kill, 2)}\n"
+          , end="")
 
 choose_weapon()
 choose_armor()
