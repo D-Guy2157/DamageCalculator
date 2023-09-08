@@ -11,6 +11,13 @@ class Weapon:
         self.fire_rate = fire_rate
         self.__dict__.update(attachments)
 
+class Armor:
+    """The class for the 3 types of armor"""
+    def __init__(self, name, body_protection, head_protection):
+        self.name = name
+        self.body_protection = body_protection
+        self.head_protection = head_protection
+
 
 # name, pen, dmg, mag, rof, **attachments
 # for **attachments, pass through list of available attachments by type
@@ -73,27 +80,76 @@ revolver = Weapon('.44 Revolver', 65, 57.77, 6, 240,
                   stock=['Standard Stock', 'Heavy Stock'],
                   magazine=['6-Shot Cylinder', '4-Shot Cylinder', '8-Shot Cylinder'])
 
+light_armor = Armor('Light Armor', 40, 0)
+combat_armor = Armor('Combat Armor', 60, 80)
+heavy_armor = Armor('Heavy Armor', 80, 80)
+
 weapon_list = [com_15, com_18, fsp_9, crossvec, mtf_e11_sr, fr_mg_0, ak, logicer, shotgun, revolver]
+armor_list = [light_armor, combat_armor, heavy_armor]
 
 print("Welcome to the SCP:SL Damage Calculator\n"
       "v13.2.1\n"
       "Made By: D-Guy (d.guy, formerly D-Guy#2157)")
 
-while True:
-    for num, weapon in enumerate(weapon_list):
-        print(f"{num}. {weapon.name}")
-    weapon_choice = input("Choose a weapon (Type either number or name):\n").lower()
-    valid_choice = [weapon for weapon in weapon_list if weapon.name.lower() == weapon_choice]
-    valid_index = [weapon for num, weapon in enumerate(weapon_list) if str(num) == weapon_choice]
-    if not valid_choice and not valid_index:
-        print("Invalid input, please try again")
-        continue
-    elif valid_choice:
-        print(f"You have chosen the {valid_choice[0].name}")
-        break
-    elif valid_index:
-        print(f"You have chosen the {valid_index[0].name}")
-        break
-    else:
-        print("How did you get here")
-        exit()
+def choose_weapon():
+    global weapon
+    while True:
+        for num, weapon in enumerate(weapon_list):
+            print(f"{num}. {weapon.name}")
+        weapon_choice = input("Choose a weapon (Type either number or name):\n").lower()
+        valid_choice = [weapon for weapon in weapon_list if weapon.name.lower() == weapon_choice]
+        valid_index = [weapon for num, weapon in enumerate(weapon_list) if str(num) == weapon_choice]
+        if not valid_choice and not valid_index:
+            print("Invalid input, please try again.")
+            continue
+        elif valid_choice:
+            print(f"You have chosen the {valid_choice[0].name}")
+            weapon = valid_choice[0]
+            break
+        elif valid_index:
+            print(f"You have chosen the {valid_index[0].name}")
+            weapon = valid_index[0]
+            break
+        else:
+            print("How did you get here")
+            exit("Guh??1")
+    return weapon
+
+def choose_armor():
+    global armor
+    while True:
+        for num, armor in enumerate(armor_list):
+            print(f"{num}. {armor.name}")
+        armor_choice = input("Choose an armor type to test the weapon against (number or name):\n").lower()
+        valid_choice = [armor for armor in armor_list if armor.name.lower() == armor_choice]
+        valid_index = [armor for num, armor in enumerate(armor_list) if str(num) == armor_choice]
+        if not valid_choice and not valid_index:
+            print("Invalid input, please try again.")
+            continue
+        elif valid_choice:
+            print(f"You have chosen the {valid_choice[0].name}")
+            armor = valid_choice[0]
+            break
+        elif valid_index:
+            print(f"You have chosen the {valid_index[0].name}")
+            armor = valid_index[0]
+            break
+        else:
+            print("How did you get here")
+            exit("Guh??2")
+    return armor
+
+def choose_attachments():
+    print(f"Choosing attachments for: {weapon.name}")
+
+def calculate():
+    # damage_reduced = (armor.body_protection * (100 - weapon.penetration)) / 100
+    # damage_per_shot = weapon.damage * (1 - (damage_reduced / 100))
+    # total_damage = weapon.mag_size * damage_per_shot
+    # damage_per_second = damage_per_shot * (weapon.fire_rate / 60)
+    pass
+
+choose_weapon()
+choose_armor()
+choose_attachments()
+calculate()
