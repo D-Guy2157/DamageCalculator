@@ -83,19 +83,19 @@ revolver = Weapon('.44 Revolver', 65, 57.77, 6, 240,
                   stock=['Standard Stock', 'Heavy Stock'],
                   magazine=['6-Shot Cylinder', '4-Shot Cylinder', '8-Shot Cylinder'])
 
+no_armor = Armor('No Armor', 0, 0, 0)
 light_armor = Armor('Light Armor', 40, 0, 0)
 combat_armor = Armor('Combat Armor', 60, 80, 0)
 heavy_armor = Armor('Heavy Armor', 80, 80, 0)
 
 weapon_list = [com_15, com_18, fsp_9, crossvec, mtf_e11_sr, fr_mg_0, ak, logicer, shotgun, revolver]
-armor_list = [light_armor, combat_armor, heavy_armor]
+armor_list = [no_armor, light_armor, combat_armor, heavy_armor]
 
 print("Welcome to the SCP:SL Damage Calculator\n"
       "v13.2.1\n"
       "Made By: D-Guy (d.guy, formerly D-Guy#2157)")
 
 def choose_weapon():
-    global weapon
     while True:
         for num, weapon in enumerate(weapon_list):
             print(f"{num}. {weapon.name}")
@@ -119,7 +119,6 @@ def choose_weapon():
     return weapon
 
 def choose_armor():
-    global armor
     while True:
         for num, armor in enumerate(armor_list):
             print(f"{num}. {armor.name}")
@@ -144,6 +143,7 @@ def choose_armor():
 
 def choose_attachments():
     # print(f"Choosing attachments for: {weapon.name}")
+    # return attachments
     pass
 
 def calculate():
@@ -195,7 +195,8 @@ def calculate():
           f"TTK: {round(time_to_kill, 2)}\n"
           , end="")
 
-choose_weapon()
-choose_armor()
-choose_attachments()
+
+weapon = choose_weapon()
+armor = choose_armor()
+attachments = choose_attachments()
 calculate()
