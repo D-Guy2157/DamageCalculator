@@ -142,7 +142,9 @@ def choose_armor():
     return armor
 
 def choose_attachments():
-    repeat = 'y'
+    repeat = input(f"Modify attachments for {weapon.name}? (y/n)\n").lower()
+    while repeat != 'y' and repeat != 'n':
+        repeat = input("Invalid input, try again. (y/n)\n").lower()
     chosen_attachments = {}
     attachment_dict = {}
     for (i, key) in enumerate(weapon.__dict__):
@@ -203,6 +205,10 @@ def choose_attachments():
             repeat = input("Invalid input, try again. (y/n)\n").lower()
     return chosen_attachments
 
+def adjust_stats():
+    # Take chosen attachments and modify weapon stats accordingly.
+    pass
+
 def calculate():
     damage_reduced = (armor.head_protection * (100 - weapon.penetration)) / 100
     damage_per_shot = (weapon.damage * 2) * (1 - (damage_reduced / 100))
@@ -257,4 +263,5 @@ weapon = choose_weapon()
 armor = choose_armor()
 attachments = choose_attachments()
 print(f"Chosen Attachments Dict:{attachments}")
+adjust_stats()
 calculate()
