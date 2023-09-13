@@ -142,9 +142,66 @@ def choose_armor():
     return armor
 
 def choose_attachments():
-    # print(f"Choosing attachments for: {weapon.name}")
-    # return attachments
-    pass
+    repeat = 'y'
+    chosen_attachments = {}
+    attachment_dict = {}
+    for (i, key) in enumerate(weapon.__dict__):
+        if i < 5:
+            continue
+        else:
+            attachment_dict.update({key: weapon.__dict__.get(key)})
+    while repeat == 'y':
+        print(f"Choosing attachments for: {weapon.name}")
+        for num, attachment_type in enumerate(attachment_dict):
+            print(f"{num}. {attachment_type}")
+        while True:
+            attachment_type_choice = input("Select a location to modify:\n").lower()
+            valid_choice = [attachment_type for attachment_type in attachment_dict.keys() if
+                            attachment_type.lower() == attachment_type_choice]
+            valid_index = [attachment_type for num, attachment_type in enumerate(attachment_dict) if
+                           str(num) == attachment_type_choice]
+            if not valid_choice and not valid_index:
+                print("Invalid input, please try again.")
+                continue
+            elif valid_choice:
+                print(f"You have chosen {valid_choice[0]}")
+                attachment_type = valid_choice[0]
+                break
+            elif valid_index:
+                print(f"You have chosen {valid_index[0]}")
+                attachment_type = valid_index[0]
+                break
+            else:
+                print("How did you get here")
+                exit("Guh??3")
+        while True:
+            print(f"Modifying {attachment_type} attachment.")
+            for num, attachment in enumerate(attachment_dict.get(attachment_type)):
+                print(f"{num}. {attachment}")
+            attachment_choice = input("Select the attachment to use:\n").lower()
+            valid_choice = [attachment for attachment in attachment_dict.get(attachment_type) if
+                            attachment.lower() == attachment_choice]
+            valid_index = [attachment for num, attachment in enumerate(attachment_dict.get(attachment_type)) if
+                           str(num) == attachment_choice]
+            if not valid_choice and not valid_index:
+                print("Invalid input, please try again.")
+                continue
+            elif valid_choice:
+                print(f"You have chosen {valid_choice[0]}")
+                attachment = valid_choice[0]
+                break
+            elif valid_index:
+                print(f"You have chosen {valid_index[0]}")
+                attachment = valid_index[0]
+                break
+            else:
+                print("How did you get here")
+                exit("Guh??4")
+        chosen_attachments.update({attachment_type: attachment})
+        repeat = input("Do you want to continue modifying attachments? (y/n)\n").lower()
+        while repeat != 'y' and repeat != 'n':
+            repeat = input("Invalid input, try again. (y/n)\n").lower()
+    return chosen_attachments
 
 def calculate():
     damage_reduced = (armor.head_protection * (100 - weapon.penetration)) / 100
@@ -199,4 +256,5 @@ def calculate():
 weapon = choose_weapon()
 armor = choose_armor()
 attachments = choose_attachments()
+print(f"Chosen Attachments Dict:{attachments}")
 calculate()
