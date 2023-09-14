@@ -96,6 +96,7 @@ print("Welcome to the SCP:SL Damage Calculator\n"
       "Made By: D-Guy (d.guy, formerly D-Guy#2157)")
 
 def choose_weapon():
+    """Returns chosen weapon object based on user input"""
     while True:
         for num, weapon in enumerate(weapon_list):
             print(f"{num}. {weapon.name}")
@@ -119,6 +120,7 @@ def choose_weapon():
     return weapon
 
 def choose_armor():
+    """Returns chosen armor object based on user input"""
     while True:
         for num, armor in enumerate(armor_list):
             print(f"{num}. {armor.name}")
@@ -142,6 +144,7 @@ def choose_armor():
     return armor
 
 def choose_attachments():
+    """Returns a dict of attachments based on user input"""
     repeat = input(f"Modify attachments for {weapon.name}? (y/n)\n").lower()
     while repeat != 'y' and repeat != 'n':
         repeat = input("Invalid input, try again. (y/n)\n").lower()
@@ -206,10 +209,11 @@ def choose_attachments():
     return chosen_attachments
 
 def adjust_stats():
-    # Take chosen attachments and modify weapon stats accordingly.
+    """WIP: adjusts stats of weapon object based on chosen attachments"""
     pass
 
 def calculate():
+    """Calculates damage stats and prints results to screen"""
     damage_reduced = (armor.head_protection * (100 - weapon.penetration)) / 100
     damage_per_shot = (weapon.damage * 2) * (1 - (damage_reduced / 100))
     total_damage = weapon.mag_size * damage_per_shot
@@ -262,6 +266,5 @@ def calculate():
 weapon = choose_weapon()
 armor = choose_armor()
 attachments = choose_attachments()
-print(f"Chosen Attachments Dict:{attachments}")
 adjust_stats()
 calculate()
